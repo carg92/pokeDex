@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { getAllPokemon, getPokemon } from "./services/pokedata";
 import Card from "./components/Card";
 import Navbar from "./components/Navbar";
-import "./App.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from './actions';
 import { async } from "q";
 
 function App() {
+  const dispatch = useDispatch();
+  const contador = useSelector(state => state.contador);
   const [pokemonData, setPokemonData] = useState([]);
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
@@ -60,23 +63,27 @@ function App() {
       {loading ? (
         <h1>Buscando tus pokemon...</h1>
       ) : (
-        <>
-          <Navbar />
-          <div className="btn">
-            <button onClick={prev}>Anterior</button>
-            <button onClick={next}>Siguiente</button>
-          </div>
-          <div>
-            {pokemonData.map((pokemon, i) => {
-              return <Card key={i} pokemon={pokemon} />;
-            })}
-          </div>
-          <div className="btn">
-            <button onClick="{prev}">Anterior</button>
-            <button onClick="{next}">Siguiente</button>
-          </div>
-        </>
-      )}
+          <>
+            <Navbar />
+            <h1>El número de pokemon en la página es {contador}</h1>
+            <button onClick={() => dispatch(increment(2))}>+</button> &nbsp;
+            <button onClick={() => dispatch(decrement(2))}>-</button>
+
+            <div className="btn">
+              <button onClick={prev}>Anterior</button>&nbsp;
+              <button onClick={next}>Siguiente</button>
+            </div>
+            <div>
+              {pokemonData.map((pokemon, i) => {
+                return <Card key={i} pokemon={pokemon} />;
+              })}
+            </div>
+            <div className="btn">
+              <button onClick="{prev}">Anterior</button>
+              <button onClick="{next}">Siguiente</button>
+            </div>
+          </>
+        )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 function Card({ pokemon }) {
-    let img = pokemon.sprites.front_default;
+    const img = pokemon.sprites.front_default;
     return (
         <div className="Card">
             <div className="Card__img">
